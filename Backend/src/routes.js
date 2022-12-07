@@ -10,8 +10,8 @@ const AnnotationController = require('./controllers/AnnotationController');
 
 
 // Rota Annotations
-// routes.get("/annotations", AnnotationController.read);
-// routes.post("/annotations", AnnotationController.create);
+routes.get("/annotations", AnnotationController.read);
+routes.post("/annotations", AnnotationController.create);
 
 
 module.exports = routes;

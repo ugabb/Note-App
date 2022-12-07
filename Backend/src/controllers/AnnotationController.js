@@ -1,22 +1,22 @@
 const Annotations = require("../models/AnnotationData");
 
-const read = async (req, res) => {
+
+module.exports = {
+    async read (req, res){
     const annotationList = await Annotations.find();
     return res.json(annotationList);
-}
+  },
 
-module.exports = read;
+  async create(req, res) {
+    console.log(req.body)
+    const { title, notes, priority } = req.body;
 
-// module.exports = {
-// //   const read = async (req, res) => {
-// //     const annotationList = await Annotations.find();
-// //     return res.json(annotationList);
-// //   },
 
-// //   create(req, res) {
-// //     const { title, notes, priority } = req.body;
-// //     console.log(title);
-// //     console.log(notes);
-// //     console.log(priority);
-// //   },
-// };
+    const annotationCreated = await Annotations.create({
+        title,
+        notes,
+        priority,
+    });
+    return res.json(annotationCreated);
+  },
+};

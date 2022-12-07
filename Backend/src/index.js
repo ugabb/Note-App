@@ -13,5 +13,6 @@ app.get('/annotations'), async (req, res) => {
     return res.json(annotationList);
 }
 
+
 const port = 3333;
 app.listen(port, () => console.log("Rodando em", port));
