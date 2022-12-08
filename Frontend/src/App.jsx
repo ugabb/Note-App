@@ -8,19 +8,22 @@ import "./sidebar.css";
 import "./main.css";
 
 import Notes from "./Components/Notes/index";
-import RadioButton from "./Components/RadioButton";
+import ColorRadioButtons from "./Components/RadioButton";
 
 function App() {
 
   const [title, setTitle] = useState("");
   const [notes, setNotes] = useState("");
   const [allNotes, setAllNotes] = useState([]);
+  const [selectedValue, setSelectedValue] = useState('all')
+
+
+  const getAllNotes = async () =>{
+    const response = await api.get('/annotations');
+    setAllNotes(response.data)
+  } 
 
   useEffect(() => {
-    const getAllNotes = async () =>{
-      const response = await api.get('/annotations');
-      setAllNotes(response.data)
-    } 
     getAllNotes();
   },[]);
 
@@ -36,7 +39,13 @@ function App() {
     setTitle('');
     setNotes('');
 
-    setAllNotes([...allNotes, response.data])
+    if(selectedValue !== 'all'){
+      getAllNotes();
+    }else{
+      setAllNotes([...allNotes, response.data])
+    }
+
+    setSelectedValue('all');
 
   };
 
@@ -50,6 +59,45 @@ function App() {
     }
     enableSubmitButton();
   }, [title,notes]);
+
+  // Deletar nota
+  const handleDelete = async (id) => {
+    const deletedNote = await api.delete(`/annotations/${id}`);
+
+    // se o id das notas forem diferente do id-excluido, entao retorna a nota
+    if(deletedNote){
+      setAllNotes(allNotes.filter(note => note._id !== id));
+    }
+  }
+
+  const changePriority = async (id) => {
+    const changedPriority = await api.post(`/priorities/${id}`);
+
+    if(changedPriority && selectedValue !== 'all'){
+      loadNotes(selectedValue);
+    } else if(changedPriority){
+      getAllNotes();
+    }
+  }
+
+  const loadNotes = async (option) =>{
+    const params = {priority:option};
+    const response = await api.get('/priorities', {params});
+
+    if(response){
+      setAllNotes(response.data);
+    }
+  }
+
+  const handleChange = async (e) => {
+    setSelectedValue(e.value);
+
+    if(e.checked && e.value !== 'all'){
+      loadNotes(e.value);
+    }else{
+      getAllNotes();
+    }
+  }
 
   return (
     <div className="App">
@@ -69,13 +117,16 @@ function App() {
           <button type="submit" id="btnSubmit">Salvar</button>
         </form>
 
-        <RadioButton />
+        <ColorRadioButtons
+          selectedValor={selectedValue}
+          switchChange={handleChange}
+        />
 
       </aside>
       <main>
         <ul>
           {allNotes.map(data => (
-             <Notes data={data} />
+             <Notes key={data._id} data={data} handleDelete={handleDelete} handlePriority={changePriority}/>
           ))}
           
         </ul>

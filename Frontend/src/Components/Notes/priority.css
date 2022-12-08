@@ -19,13 +19,13 @@ li.notepad-infos-priority strong{
 }
 
 li.notepad-infos-priority .trash {
-    color: white;
+    color: #fabbad;
     cursor: pointer;
 }
 
 li.notepad-infos-priority .trash:hover{
     color: white;
-    transition: 0.s;
+    transition: 0.2s;
 }
 
 li.notepad-infos-priority textarea{
