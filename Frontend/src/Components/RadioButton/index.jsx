@@ -33,7 +33,7 @@ export default function ColorRadioButtons({selectedValor, switchChange}) {
         onChange={e => switchChange(e.target)}
         value="all"
       />
-      <span>Todos</span>
+      <span>All</span>
       <Radio
         {...controlProps("e")}
         sx={{
@@ -46,7 +46,7 @@ export default function ColorRadioButtons({selectedValor, switchChange}) {
         onChange={e => switchChange(e.target)}
         value="true"
       />
-      <span>Prioridade</span>
+      <span>Priority</span>
       <Radio
         {...controlProps("e")}
         sx={{
@@ -59,7 +59,7 @@ export default function ColorRadioButtons({selectedValor, switchChange}) {
         onChange={e => switchChange(e.target)}
         value="false"
       />
-      <span>Normal</span>
+      <span>Default</span>
     </div>
   );
 }

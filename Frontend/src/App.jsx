@@ -102,19 +102,19 @@ function App() {
   return (
     <div className="App">
       <aside>
-        <strong>Caderno de Notas</strong>
+        <strong>Note App</strong>
         <form onSubmit={handleSubmit}>
           <div className="input-block">
-            <label htmlFor="title">Título da Anotação</label>
+            <label htmlFor="title">Title</label>
             <input value={title} required maxLength={50} onChange={e => setTitle(e.target.value)} />
           </div>
 
           <div className="input-block">
-            <label htmlFor="nota">Anotações</label>
+            <label htmlFor="nota">Annotation</label>
             <textarea value={notes} required onChange={e => setNotes(e.target.value)} />
           </div>
 
-          <button type="submit" id="btnSubmit">Salvar</button>
+          <button type="submit" id="btnSubmit">Save</button>
         </form>
 
         <ColorRadioButtons
